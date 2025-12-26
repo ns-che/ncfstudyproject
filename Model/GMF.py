@@ -8,7 +8,7 @@ import math
 import heapq
 from time import time
 import os
-from tqdm import tqdm
+import config
 
 # ==========================================
 # 1. 모델 정의 (GMF - Generalized Matrix Factorization)
@@ -128,6 +128,8 @@ def evaluate_model(model, testRatings, testNegatives, K):
 # ==========================================
 if __name__ == '__main__':
     # 설정값 (Hyperparameters)
+    import os
+    # 현재 파일의 절대 경로를 얻은 뒤, 그 파일이 속한 디렉토리 경로 추출
     dataset_name = 'study'
     epochs = 20
     batch_size = 256
@@ -138,7 +140,7 @@ if __name__ == '__main__':
 
     # 주의: Dataset 클래스는 별도의 Dataset.py 파일에 정의되어 있어야 합니다.
     from Dataset import Dataset 
-    dataset = Dataset('Data/' + dataset_name)
+    dataset = Dataset(os.path.join(config.DATA_DIR, dataset_name))
     train, testRatings, testNegatives = dataset.trainMatrix, dataset.testRatings, dataset.testNegatives
     num_users, num_items = train.shape
     
@@ -164,7 +166,7 @@ if __name__ == '__main__':
             # 베스트 모델 저장 로직
             if hr > best_hr:
                 best_hr = hr
-                if not os.path.exists('Pretrain'): os.makedirs('Pretrain')
-                model.save_weights(f'Pretrain/{dataset_name}_GMF.weights.h5', overwrite=True)
+                if not os.path.exists(config.PRETRAIN_DIR): os.makedirs(config.PRETRAIN_DIR)
+                model.save_weights(os.path.join(config.PRETRAIN_DIR,f'{dataset_name}_GMF.weights.h5'), overwrite=True)
 
     print(f"End. Best HR = {best_hr:.4f}")
