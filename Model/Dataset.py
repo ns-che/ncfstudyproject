@@ -4,13 +4,15 @@ Dataset.py
 import scipy.sparse as sp
 import numpy as np
 from collections import defaultdict
+import config
+import os
 
 class Dataset(object):
     def __init__(self, path):
         self.trainMatrix = self.load_rating_file_as_matrix(path + ".train.rating")
         self.testRatings = self.load_rating_file_as_list(path + ".test.rating")
         self.testNegatives = self.load_negative_file(path + ".test.negative")
-        self.usermeta = self.load_usermeta_file("user_meta")
+        self.usermeta = self.load_usermeta_file(os.path.join(config.BASE_DIR, "user_meta"))
 
         assert len(self.testRatings) == len(self.testNegatives)
         
