@@ -20,7 +20,7 @@ def get_top(userid = 1, K = 3):
     # num_factors = 8
     layers = [64, 32, 16, 8]
     # 주의: Dataset 클래스는 별도의 Dataset.py 파일에 정의되어 있어야 합니다.
-    from Dataset import Dataset 
+    from Model.Dataset2 import Dataset 
     dataset = Dataset('Data/' + dataset_name)
     train, testRatings, testNegatives = dataset.trainMatrix, dataset.testRatings, dataset.testNegatives
     num_users, num_items = train.shape

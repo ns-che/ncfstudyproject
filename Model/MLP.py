@@ -158,7 +158,8 @@ if __name__ == '__main__':
             # 베스트 모델 저장 로직
             if hr > best_hr:
                 best_hr = hr
+
                 if not os.path.exists(config.PRETRAIN_DIR): os.makedirs(config.PRETRAIN_DIR)
                 model.save_weights(os.path.join(config.PRETRAIN_DIR,f'{dataset_name}_MLP.weights.h5'), overwrite=True)
-
+                
     print(f"End. Best HR = {best_hr:.4f}")

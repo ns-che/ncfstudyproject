@@ -1,3 +1,46 @@
-__pycache__/
-*.pyc
+# --- OS / IDE ---
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# --- Frontend (Node.js) ---
+**/node_modules/
+**/dist/
+**/build/
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+npm-debug.log*
+
+# --- Backend (Python / Django / Flask) ---
+**/__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+venv/
+ENV/
+.env
+db.sqlite3
+
+# --- Machine Learning & Data ---
+# 대용량 데이터셋은 절대 올리지 않음
+# Data/
+# **/datasets/
+
+# 모델 가중치 파일 (LFS 권장, 일반 Git에는 제외)
+*.pth
 *.h5
+*.bin
+*.pkl
+**/models/*.onnx
+
+# 로그 및 체크포인트
+**/logs/
+**/checkpoints/
+
+# --- Build & Others ---
+bin/
+obj/
+out/

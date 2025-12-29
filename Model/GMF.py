@@ -1,5 +1,6 @@
 import numpy as np
 import tensorflow as tf
+from Model.Dataset import Dataset
 from tensorflow.keras import Model
 from tensorflow.keras.layers import Embedding, Input, Dense, Flatten, Multiply
 from tensorflow.keras.regularizers import l2
@@ -8,7 +9,7 @@ import math
 import heapq
 from time import time
 import os
-import config
+import Model.config as config
 
 # ==========================================
 # 1. 모델 정의 (GMF - Generalized Matrix Factorization)
@@ -138,12 +139,18 @@ if __name__ == '__main__':
     learning_rate = 0.001
     topK = 10
 
-    # 주의: Dataset 클래스는 별도의 Dataset.py 파일에 정의되어 있어야 합니다.
-    from Dataset import Dataset 
-    dataset = Dataset(os.path.join(config.DATA_DIR, dataset_name))
+    # dataset = Dataset(os.path.join(config.DATA_DIR, dataset_name))
+    dataset = Dataset()
     train, testRatings, testNegatives = dataset.trainMatrix, dataset.testRatings, dataset.testNegatives
     num_users, num_items = train.shape
     
+    print(train)
+    print()
+    print(testRatings)
+    print()
+    print(testNegatives)
+    print()
+
     # 모델 생성 및 컴파일
     model = get_model(num_users, num_items, num_factors)
     model.compile(optimizer=Adam(learning_rate=learning_rate), loss='binary_crossentropy')
