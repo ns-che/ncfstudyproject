@@ -1,23 +1,16 @@
 from sqlalchemy import create_engine
-from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
-from config import settings
+from sqlalchemy.ext.declarative import declarative_base
 
-# 커넥션 풀 설정 포함
-engine = create_engine(
-    settings.DATABASE_URL,
-    pool_recycle=3600,
-    pool_size=10,
-    max_overflow=20
-)
+# 본인의 실제 정보로 수정 (SSL 관련 이슈 방지를 위해 옵션 추가)
+USER = "root"
+PASSWORD = "root"
+HOST = "localhost"
+PORT = "3306"
+DB_NAME = "test_db"
 
+DB_URL = f"mysql+pymysql://{USER}:{PASSWORD}@{HOST}:{PORT}/{DB_NAME}?charset=utf8mb4&ssl_disabled=True"
+
+engine = create_engine(DB_URL, echo=False)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 Base = declarative_base()
-
-# DB 세션 의존성 주입 함수
-def get_db():
-    db = SessionLocal()
-    try:
-        yield db
-    finally:
-        db.close()
