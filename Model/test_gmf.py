@@ -14,20 +14,22 @@ import numpy as np
 import heapq
 
 def get_top(userid = 1, K = 3):
-    import GMF
+    import Model.GMF as GMF
+    from Model.Dataset import Dataset 
+    import Model.config as config
+    import os
 
     dataset_name = "study"
     num_factors = 8
-    # 주의: Dataset 클래스는 별도의 Dataset.py 파일에 정의되어 있어야 합니다.
-    from Dataset import Dataset 
-    dataset = Dataset('Data/' + dataset_name)
+
+    dataset = Dataset()
     train, testRatings, testNegatives = dataset.trainMatrix, dataset.testRatings, dataset.testNegatives
     num_users, num_items = train.shape
 
     model = GMF.get_model(num_users, num_items, num_factors)
 
     # 2. 저장된 가중치 불러오기
-    model.load_weights(f'Pretrain/{dataset_name}_GMF.weights.h5')
+    model.load_weights(os.path.join(config.PRETRAIN_DIR,f'{dataset_name}_GMF.weights.h5'))
     users = np.array([userid] * (num_items-1)) # [1, 1, 1, ..., 1] (100개)
     items = np.array(range(1, num_items)) # (100개)
     pred = model.predict([users, items])
@@ -48,4 +50,4 @@ def get_top(userid = 1, K = 3):
         print(f"LP{itemid}", end=' ')
 
 
-get_top()
+get_top(userid = 3)
